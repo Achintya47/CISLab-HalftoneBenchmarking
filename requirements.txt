@@ -1,0 +1,13 @@
+# Compatibility install. The authoritative dependency declarations live in
+# pyproject.toml; CI installs via `pip install -e ".[test]"` and this file
+# exists for anyone who prefers a plain `pip install -r requirements.txt`.
+numpy>=2.0,<3
+Pillow>=10,<13
+scipy>=1.13,<2
+scikit-image>=0.24,<1
+torch>=2.4,<3
+numba>=0.60,<1
+kagglehub>=0.3,<1
+
+# Optional, needed only for the LPIPS column in benchmarking_v2 reports:
+# lpips>=0.1.4
