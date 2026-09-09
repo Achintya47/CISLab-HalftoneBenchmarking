@@ -1,0 +1,47 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+build/
+dist/
+.eggs/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# --- Virtual environments ---
+.venv/
+venv/
+env/
+
+# --- Numba on-disk JIT cache (never commit; also see benchmarking_v2/_numba_compat.py) ---
+**/*.nbi
+**/*.nbc
+
+# --- Datasets: never commit real data, only lock/manifest metadata ---
+datasets/**
+!datasets/.gitkeep
+!datasets/*/dataset-lock.json
+
+# --- Checkpoints: metadata (*.json) is versioned, binaries are not ---
+checkpoints/*.pt
+checkpoints/*.pth
+checkpoints/*.part
+!checkpoints/*.json
+!checkpoints/README.md
+
+# --- Generated run output ---
+benchmarking/output/
+benchmarking_v2/output/
+**/output/
+*.log
+
+# --- Editors / OS ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- Local env files ---
+.env
