@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "halftoning-bench"
+version = "0.3.0"
+description = "Reproducible research repository for classical and deep-RL halftoning: paper-faithful method implementations plus a spec-driven, extensible benchmark."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "CISLAB Halftoning Bench contributors" }]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "numpy>=2.0,<3",
+    "Pillow>=10,<13",
+    "scipy>=1.13,<2",
+    "scikit-image>=0.24,<1",
+    "torch>=2.4,<3",
+    "numba>=0.60,<1",
+    "kagglehub>=0.3,<1",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8"]
+lpips = ["lpips>=0.1.4"]
+dev = ["ruff"]
+
+[project.urls]
+Repository = "https://github.com/AngadSingh22/halftoning_bench"
+
+# The repo also contains non-package top-level directories
+# (paper-implementations/, checkpoints/, datasets/, tests/) that are loaded
+# dynamically at runtime (see benchmarking/adapters.py::_load_module) rather
+# than imported as normal Python packages, so they're excluded here.
+[tool.setuptools.packages.find]
+include = ["benchmarking", "benchmarking.*", "benchmarking_v2", "benchmarking_v2.*", "benchmarking_v3", "benchmarking_v3.*"]
+
+[tool.setuptools.package-data]
+benchmarking_v3 = ["icc_profiles/*.icc", "icc_profiles/README.md", "icc_profiles/LICENSE"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 140
+target-version = "py311"
