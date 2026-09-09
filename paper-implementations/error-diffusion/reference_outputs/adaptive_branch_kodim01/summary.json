@@ -1,0 +1,21 @@
+{
+  "image": "datasets/kodak/img/kodim01.png",
+  "boundary_mode": "strict",
+  "crop_top": 128,
+  "crop_left": 416,
+  "crop_height": 128,
+  "crop_width": 128,
+  "adaptive_fraction": 1.0,
+  "adaptive_pixels": 16384,
+  "mean_top_r": 0.827890278940981,
+  "mean_second_r": 0.617237178280064,
+  "mean_gap_r": 0.21065310066091714,
+  "median_gap_r": 0.1449567268199013,
+  "small_gap_fraction_lt_0.05": 0.2545166015625,
+  "dominant_direction_counts": {
+    "right": 5395,
+    "down_left": 3607,
+    "down": 4059,
+    "down_right": 3323
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "inputs": [
+    "datasets/kodak/img/kodim01.png",
+    "datasets/kodak/img/kodim02.png"
+  ],
+  "paper_image_names_present": false,
+  "boundary_mode": "strict",
+  "variants": {
+    "floyd": {
+      "psnr_mean": 26.963779489995915,
+      "edge_corr_mean": 0.001948436891666724
+    },
+    "gaed_threshold": {
+      "psnr_mean": 26.616654682086526,
+      "edge_corr_mean": 0.001880808960599494
+    },
+    "gaed_adaptive": {
+      "psnr_mean": 26.616864788373473,
+      "edge_corr_mean": 0.0020265004799031993
+    },
+    "gaed": {
+      "psnr_mean": 26.25294068469717,
+      "edge_corr_mean": 0.001982094816724137
+    }
+  },
+  "trend_vs_floyd": {
+    "gaed_edge_advantage": 3.365792505741292e-05,
+    "gaed_psnr_delta": -0.7108388052987458
+  }
+}
