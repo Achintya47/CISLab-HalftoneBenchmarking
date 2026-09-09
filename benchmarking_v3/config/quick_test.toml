@@ -1,0 +1,66 @@
+# Fast local smoke-test config for the printer-style CMYK/ICC benchmark.
+#
+#   python -m benchmarking_v3.run_benchmark --config benchmarking_v3/config/quick_test.toml
+#
+# 2 base images/family x 5 families = 10 base images, x (1 base + 3 stress
+# variants) = 40 evaluation items per method. Deep Learning is disabled by
+# default (see benchmarking_v2/README.md's checkpoint policy -- identical
+# ladder is reused here). LPIPS is off since it's an optional extra.
+
+seed = 0
+output_dir = "benchmarking_v3/output/run-quick-test"
+datasets_root = "datasets"
+device = "cpu"
+synthetic_size = 96
+working_size = 96
+compute_lpips = false
+comparisons_per_method = 5
+
+[icc]
+# Ships a real CC0-licensed CMYK ICC profile (see icc_profiles/LICENSE).
+# It only has a device->PCS table (it's a legacy-content "assumption"
+# profile, not a full bidirectional printer characterization profile), so
+# the pipeline auto-detects that and falls back to the naive full-GCR
+# conversion for BOTH directions to stay self-consistent -- see
+# benchmarking_v3/icc.py and README.md for the full explanation. Point
+# `cmyk_profile_path` at your own licensed SWOP/FOGRA/GRACoL .icc to get a
+# fully ICC-managed round trip instead; no other change is needed.
+cmyk_profile_path = "benchmarking_v3/icc_profiles/CGATS001Compat-v2-micro.icc"
+rendering_intent = "relative_colorimetric"
+black_point_compensation = true
+
+[families.edge_text]
+count = 2
+[families.scenery_gradient]
+count = 2
+[families.texture]
+count = 2
+[families.color_skin]
+count = 2
+[families.pattern]
+count = 2
+
+[methods.dbs]
+algorithm = "dbs"
+enabled = true
+passes = 2
+
+[methods.error_diffusion]
+algorithm = "error_diffusion"
+enabled = true
+variant = "gaed"
+
+[methods.ordered_dithering]
+algorithm = "ordered_dithering"
+enabled = true
+matrix_size = 8
+
+[methods.deep_learning]
+algorithm = "deep_learning"
+enabled = false
+released_checkpoint_name = "efficient-drl-paper-v1"
+bootstrap_iterations = 100
+channels = 16
+num_res_blocks = 4
+crop_size = 64
+batch_size = 8

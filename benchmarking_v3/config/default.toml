@@ -1,0 +1,54 @@
+# Default printer-style CMYK/ICC benchmark configuration.
+# 10 base images/family x 5 families = 50 base images, x (1 base + 3 stress
+# variants) = 200 evaluation items per method (same scale as benchmarking_v2).
+
+seed = 0
+output_dir = "benchmarking_v3/output/run-default"
+datasets_root = "datasets"
+device = "auto"
+synthetic_size = 128
+working_size = 128
+compute_lpips = true
+comparisons_per_method = 5
+
+[icc]
+cmyk_profile_path = "benchmarking_v3/icc_profiles/CGATS001Compat-v2-micro.icc"
+rendering_intent = "relative_colorimetric"
+black_point_compensation = true
+# source_profile = "sRGB"   # only sRGB is supported today; see EXTENDING.md
+
+[families.edge_text]
+count = 10
+[families.scenery_gradient]
+count = 10
+[families.texture]
+count = 10
+[families.color_skin]
+count = 10
+[families.pattern]
+count = 10
+
+[methods.dbs]
+algorithm = "dbs"
+enabled = true
+passes = 4
+
+[methods.error_diffusion]
+algorithm = "error_diffusion"
+enabled = true
+variant = "gaed"
+
+[methods.ordered_dithering]
+algorithm = "ordered_dithering"
+enabled = true
+matrix_size = 8
+
+[methods.deep_learning]
+algorithm = "deep_learning"
+enabled = true
+released_checkpoint_name = "efficient-drl-paper-v1"
+bootstrap_iterations = 200
+channels = 16
+num_res_blocks = 4
+crop_size = 64
+batch_size = 8
