@@ -1,0 +1,59 @@
+# Fast local smoke-test config.
+#
+#   python -m benchmarking_v2.run_benchmark --config benchmarking_v2/config/quick_test.toml
+#
+# 2 base images/family x 5 families = 10 base images, x (1 base + 3 stress
+# variants) = 40 evaluation items per method. Deep Learning is disabled by
+# default since it needs either a real checkpoint or a bootstrap-training
+# pass -- re-enable it explicitly (or point `checkpoint = "..."` at a real
+# one) once you have one. LPIPS is off too, since the `lpips` package is an
+# optional extra most people won't have installed yet.
+#
+# Equivalent one-liner using the default config instead of this file:
+#   python -m benchmarking_v2.run_benchmark --images-per-family 2 --disable deep_learning --no-lpips
+
+seed = 0
+output_dir = "benchmarking_v2/output/run-quick-test"
+datasets_root = "datasets"
+device = "cpu"
+synthetic_size = 96
+working_size = 96
+compute_lpips = false
+comparisons_per_method = 5
+
+[families.edge_text]
+count = 2
+[families.scenery_gradient]
+count = 2
+[families.texture]
+count = 2
+[families.color_skin]
+count = 2
+[families.pattern]
+count = 2
+
+[methods.dbs]
+algorithm = "dbs"
+enabled = true
+mono_passes = 2
+cm_passes = 2
+
+[methods.error_diffusion]
+algorithm = "error_diffusion"
+enabled = true
+variant = "gaed"
+
+[methods.ordered_dithering]
+algorithm = "ordered_dithering"
+enabled = true
+matrix_size = 8
+
+[methods.deep_learning]
+algorithm = "deep_learning"
+enabled = false        # <- flip to true once you have a checkpoint / want to bootstrap-train
+released_checkpoint_name = "efficient-drl-paper-v1"
+bootstrap_iterations = 100
+channels = 16
+num_res_blocks = 4
+crop_size = 64
+batch_size = 8

@@ -1,0 +1,62 @@
+# Default benchmark_v2 configuration.
+#
+# This mirrors "50 images from 5 datasets x 3 stress variants" from the
+# request: 10 base images/family x 5 families = 50 base images, each with
+# its family's 3 Table-1 stress variants applied -> 150 stress items, for
+# 200 evaluation items total. This is an exact 1/3 scale-down of the full
+# spec protocol (150 base / 450 stress), see spec.py for the rationale.
+
+seed = 0
+output_dir = "benchmarking_v2/output/run-default"
+datasets_root = "datasets"
+device = "auto"
+synthetic_size = 128     # size used when a family falls back to synthetic images
+working_size = 128       # all images are resized to this square size before halftoning
+compute_lpips = true     # requires `pip install lpips`; otherwise reported as NaN
+comparisons_per_method = 5   # save an original/halftone/reconstructed PNG panel per method (0 to disable)
+
+[families.edge_text]
+count = 10
+
+[families.scenery_gradient]
+count = 10
+
+[families.texture]
+count = 10
+
+[families.color_skin]
+count = 10
+
+[families.pattern]
+count = 10
+
+# --- Method registration -----------------------------------------------
+# `algorithm` selects the registry key from benchmarking_v2/algorithms/__init__.py.
+# Any extra keys are forwarded as adapter-specific config.
+
+[methods.dbs]
+algorithm = "dbs"
+enabled = true
+mono_passes = 4
+cm_passes = 4
+
+[methods.error_diffusion]
+algorithm = "error_diffusion"
+enabled = true
+variant = "gaed"
+
+[methods.ordered_dithering]
+algorithm = "ordered_dithering"
+enabled = true
+matrix_size = 8
+
+[methods.deep_learning]
+algorithm = "deep_learning"
+enabled = true
+# checkpoint = "checkpoints/efficient-drl-paper-v1.pt"   # uncomment to pin an explicit checkpoint
+released_checkpoint_name = "efficient-drl-paper-v1"
+bootstrap_iterations = 200
+channels = 16
+num_res_blocks = 4
+crop_size = 64
+batch_size = 8
